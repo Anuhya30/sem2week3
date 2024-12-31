@@ -1,0 +1,192 @@
+TASKS
+
+1)CREATE TABLE employees (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER,
+    position TEXT
+  );
+
+
+2) CREATE TABLE departments (
+    department_id INTEGER PRIMARY KEY,
+    department_name TEXT UNIQUE
+  );
+
+
+
+3) INSERT INTO employees (id, name, age, position)
+ VALUES(1, 'Alice', 30, 'Manager');
+   INSERT INTO employees (id, name, age, position)
+ VALUES(2, 'Bob', 25, 'Analyst');
+   INSERT INTO employees (id, name, age, position)
+VALUES (3, 'Charlie', 28, 'Developer');
+
+4) INSERT INTO departments (department_id, department_name)
+ VALUES(1, 'HR'),
+(2, 'Engineering'),
+(3, 'Finance');
+
+5)SELECT * FROM employees;
+
+6)SELECT name, position FROM employees;
+
+7)SELECT * FROM employees
+WHERE age > 27;
+
+8)SELECT * FROM employees
+WHERE position = 'Developer';
+
+9)SELECT * FROM employees
+WHERE name LIKE 'A%';
+
+10)SELECT * FROM employees
+WHERE age BETWEEN 25 AND 30;
+
+11)SELECT * FROM employees
+ORDER BY age ASC;
+
+12)SELECT * FROM employees
+ORDER BY name DESC;
+
+13)SELECT COUNT(*) AS total_employees FROM employees;
+
+14)SELECT AVG(age) AS average_age FROM employees;
+
+15)SELECT MAX(age) AS max_age FROM employees;
+
+16)SELECT SUM(age) AS total_age FROM employees;
+
+17)SELECT position, COUNT(*) AS number_of_employees
+FROM employees
+GROUP BY position;
+
+18)SELECT position, AVG(age) AS average_age
+FROM employees
+GROUP BY position;
+
+19)UPDATE employees
+SET age = 32
+WHERE name = 'Alice';
+
+20)UPDATE employees
+SET position = 'Senior Analyst'
+WHERE name = 'Bob';
+
+21)DELETE FROM employees
+WHERE name = 'Charlie';
+
+22)DELETE FROM employees
+WHERE age > 35;
+
+23)CREATE TABLE projects (
+    project_id INTEGER PRIMARY KEY,
+    project_name TEXT,
+    department_id INTEGER,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+  );
+
+24)INSERT INTO projects (project_id, project_name, department_id) 
+VALUES
+(1, 'Project Alpha', 1),
+(2, 'Project Beta', 2),
+(3, 'Project Gamma', 3);
+
+25)SELECT projects.project_id, projects.project_name, departments.department_name
+FROM projects
+INNER JOIN departments ON projects.department_id = departments.department_id;
+
+26)SELECT departments.department_name, projects.project_id, projects.project_name
+FROM departments
+LEFT JOIN projects ON departments.department_id = projects.department_id;
+
+27)ALTER TABLE employees
+ADD CONSTRAINT age_check CHECK (age > 18);
+
+28)ALTER TABLE departments
+MODIFY department_name TEXT NOT NULL;
+
+29)SELECT name
+FROM employees
+WHERE department_id = (SELECT department_id FROM departments WHERE department_name = 'Engineering');
+
+30)CREATE VIEW employee_summary AS
+SELECT employees.name, employees.position, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.department_id;
+----------------------------------------------------------------------------
+PROJECT
+
+CREATE TABLE customers (
+    customer_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE sales (
+    sale_id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    product TEXT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    sale_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+INSERT INTO customers (customer_id, name, email) VALUES
+(1, 'ANUHYA', 'anuhya@example.com'),
+(2, 'ABHI', 'abhianu@example.com'),
+(3, 'AARADHYA', 'aaradhya@example.com');
+
+INSERT INTO sales (sale_id, customer_id, product, amount, sale_date) VALUES
+(1, 1, 'Laptop', 120000.00, '2024-12-01'),
+(2, 1, 'Mouse', 25.00, '2024-12-05'),
+(3, 2, 'Keyboard', 1150.00, '2024-12-03'),
+(4, 3, 'Monitor', 30000.00, '2024-12-10'),
+(5, 2, 'Laptop', 1000.00, '2024-12-07');
+
+SELECT c.name, SUM(s.amount) AS total_sales
+FROM sales s
+INNER JOIN customers c ON s.customer_id = c.customer_id
+GROUP BY c.name;
+
+SELECT s.sale_id, c.name, s.product, s.amount, s.sale_date
+FROM sales s
+INNER JOIN customers c ON s.customer_id = c.customer_id
+WHERE s.sale_date BETWEEN '2024-12-01' AND '2024-12-07';
+
+SELECT c.name, SUM(s.amount) AS total_spent
+FROM sales s
+INNER JOIN customers c ON s.customer_id = c.customer_id
+GROUP BY c.name
+ORDER BY total_spent DESC
+LIMIT 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
